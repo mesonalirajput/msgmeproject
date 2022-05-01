@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "544415166445",
+    "project_id": "messageme-fc15e",
+    "storage_bucket": "messageme-fc15e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544415166445:android:516684e821a176ffbc01e4",
+        "android_client_info": {
+          "package_name": "com.msgmeproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544415166445-364ekf725iihj3hpki8s14mmlks4nqg3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.msgmeproject",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "544415166445-aunb6e9flia5n3ng5fj2g9gvim7i9ogl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDY_iNxbUS0MxRG7OB4-itPa8f2ZbPAwxk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544415166445-aunb6e9flia5n3ng5fj2g9gvim7i9ogl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
