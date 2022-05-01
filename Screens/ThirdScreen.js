@@ -10,11 +10,12 @@ import {
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 const CELL_COUNT = 6;
+
 const ThirdScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const {phoneNumber} = route.params;
-  const [confirm, setConfirm] = useState();
+  const [confirm, setConfirm] = useState(null);
   const [value, setValue] = useState('');
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -22,6 +23,7 @@ const ThirdScreen = () => {
     setValue,
   });
   useEffect(() => {
+    console.log(phoneNumber);
     signInWithPhoneNumber();
   }, []);
 
@@ -39,6 +41,7 @@ const ThirdScreen = () => {
 
   async function confirmCode() {
     try {
+      console.log(confirm);
       const response = await confirm.confirm(value);
       if (response) {
         navigation.navigate('FourthScreen', {phoneNumber: phoneNumber});

@@ -9,13 +9,19 @@ import FourthScreen from './Screens/FourthScreen';
 import LoadingScreen from './Screens/LoadingScreen';
 import HomeScreen from './Screens/HomeScreen';
 import TabNavigation from './Screens/TabNavigation';
-import auth from '@react-native-firebase/auth';
+import auth, {firebase} from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   const [user, setUser] = useState();
   useEffect(() => {
-    auth().signOut();
+    // auth().signOut();
+    firestore()
+      .collection('users')
+      .doc('test')
+      .set({this: 'that'})
+      .catch(err => console.log('firestore test!'));
     let usr = auth().currentUser;
     setUser(usr);
   }, []);
