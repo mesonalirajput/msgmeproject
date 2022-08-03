@@ -5,32 +5,44 @@ import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 const InitialScreen = () => {
   const navigation = useNavigation();
   return (
-    <View style={styles.initialscreen__container}>
-      <Text style={styles.initialscreen__heading}>Welcome to MessageMe</Text>
-      <Image
-        style={styles.initialscreen__container__img}
-        source={require('../assets/image.png')}
-      />
-      <Text style={styles.InitialScreen__txt}>
-        Share happiness with your close ones
-      </Text>
-      <TouchableOpacity
-        style={styles.initialscreen__btnView}
-        onPress={() => navigation.navigate('SecondScreen')}>
-        <Text style={styles.initialscreen__btnText}>Let's start</Text>
-      </TouchableOpacity>
+    <View style={styles.container}>
+      <View style={styles.initialscreen__container}>
+        <Text style={styles.initialscreen__heading}>Welcome to MessageMe</Text>
+        <Image
+          style={styles.initialscreen__container__img}
+          source={require('../assets/image.png')}
+        />
+        <Text style={styles.InitialScreen__txt}>
+          Share happiness with your close ones
+        </Text>
+        <TouchableOpacity
+          style={styles.initialscreen__btnView}
+          onPress={() => navigation.navigate('SecondScreen')}>
+          <Text style={styles.initialscreen__btnText}>Let's start</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#3366cc',
+    justifyContent: 'flex-end',
+  },
   initialscreen__container: {
     alignItems: 'center',
     // justifyContent: 'center',
+    backgroundColor: '#fff',
+    marginTop: 100,
+    height: 600,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
   initialscreen__heading: {
     fontSize: 27,
-    marginTop: 100,
+    marginTop: 70,
     fontWeight: '600',
     color: '#3366cc',
   },

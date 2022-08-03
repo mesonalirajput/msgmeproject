@@ -11,12 +11,7 @@ const Tab = createMaterialTopTabNavigator();
 const TabNavigation = () => {
   return (
     <>
-      <Header
-        color1="#fff"
-        fontWeight="600"
-        color2="#3366cc"
-        color3="#3366cc"
-      />
+      <Header title={'MessageMe'} />
       <Tab.Navigator
         initialRouteName="Chats"
         screenOptions={{

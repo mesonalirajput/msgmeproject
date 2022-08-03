@@ -23,7 +23,7 @@ const ThirdScreen = () => {
     setValue,
   });
   useEffect(() => {
-    console.log(phoneNumber);
+    // console.log(phoneNumber);
     signInWithPhoneNumber();
   }, []);
 
@@ -41,10 +41,20 @@ const ThirdScreen = () => {
 
   async function confirmCode() {
     try {
-      console.log(confirm);
+      // console.log(confirm);
       const response = await confirm.confirm(value);
       if (response) {
-        navigation.navigate('FourthScreen', {phoneNumber: phoneNumber});
+        let uid = auth().currentUser?.uid;
+        firestore()
+          .collection('users')
+          .doc(uid)
+          .set({phoneNumber, uid})
+          .then(() => {
+            navigation.navigate('FourthScreen', {phoneNumber: phoneNumber});
+          })
+          .catch(err => {
+            console.log('ThirdScreen.JS > confirmCode onerr: ', err);
+          });
       }
     } catch (e) {
       console.log('ThirdScreen > confirm error:', e);
@@ -52,74 +62,90 @@ const ThirdScreen = () => {
   }
 
   return (
-    <View style={styles.thirdScreen__container}>
-      <Text style={styles.thirdScreen__heading}>Verifying your number</Text>
-      <Text style={{fontSize: 15, color: '#808080', fontWeight: '600'}}>
-        Waiting to automatically detect an SMS sent to
-      </Text>
-      <Text style={{fontSize: 15, color: '#808080', fontWeight: '600'}}>
-        {phoneNumber}.
-      </Text>
-      <CodeField
-        ref={ref}
-        {...props}
-        // Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
-        value={value}
-        onChangeText={setValue}
-        cellCount={CELL_COUNT}
-        rootStyle={styles.codeFieldRoot}
-        keyboardType="number-pad"
-        textContentType="oneTimeCode"
-        renderCell={({index, symbol, isFocused}) => (
-          <Text
-            key={index}
-            style={[styles.cell, isFocused && styles.focusCell]}
-            onLayout={getCellOnLayoutHandler(index)}>
-            {symbol || (isFocused ? <Cursor /> : null)}
-          </Text>
-        )}
-      />
-      <Text
-        style={{
-          fontSize: 14,
-          color: '#4d4d4d',
-          marginTop: 10,
-          fontWeight: '500',
-          marginBottom: 20,
-        }}>
-        Enter 6-digit code
-      </Text>
-      <TouchableOpacity style={styles.verifyBtn} onPress={() => confirmCode()}>
-        <Text style={{fontSize: 17, color: '#fff', fontWeight: '600'}}>
-          Verify OTP
+    <View style={styles.container}>
+      <View style={styles.thirdScreen__container}>
+        <Text style={styles.thirdScreen__heading}>Verifying your number</Text>
+        <Text style={{fontSize: 15, color: '#808080', fontWeight: '600'}}>
+          Waiting to automatically detect an SMS sent to
         </Text>
-      </TouchableOpacity>
-      <View style={{flexDirection: 'row', marginTop: 10, alignItems: 'center'}}>
+        <Text style={{fontSize: 15, color: '#808080', fontWeight: '600'}}>
+          {phoneNumber}.
+        </Text>
+        <CodeField
+          ref={ref}
+          {...props}
+          // Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
+          value={value}
+          onChangeText={setValue}
+          cellCount={CELL_COUNT}
+          rootStyle={styles.codeFieldRoot}
+          keyboardType="number-pad"
+          textContentType="oneTimeCode"
+          renderCell={({index, symbol, isFocused}) => (
+            <Text
+              key={index}
+              style={[styles.cell, isFocused && styles.focusCell]}
+              onLayout={getCellOnLayoutHandler(index)}>
+              {symbol || (isFocused ? <Cursor /> : null)}
+            </Text>
+          )}
+        />
         <Text
           style={{
             fontSize: 14,
             color: '#4d4d4d',
+            marginTop: 10,
             fontWeight: '500',
+            marginBottom: 20,
           }}>
-          Didn't get otp?{' '}
+          Enter 6-digit code
         </Text>
-        <TouchableOpacity onPress={() => signInWithPhoneNumber()}>
+        <TouchableOpacity
+          style={styles.verifyBtn}
+          onPress={() => confirmCode()}>
+          <Text style={{fontSize: 17, color: '#fff', fontWeight: '600'}}>
+            Verify OTP
+          </Text>
+        </TouchableOpacity>
+        <View
+          style={{flexDirection: 'row', marginTop: 10, alignItems: 'center'}}>
           <Text
             style={{
               fontSize: 14,
-              color: '#3366cc',
-              fontWeight: '600',
+              color: '#4d4d4d',
+              fontWeight: '500',
             }}>
-            Resend SMS.
+            Didn't get otp?{' '}
           </Text>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => signInWithPhoneNumber()}>
+            <Text
+              style={{
+                fontSize: 14,
+                color: '#3366cc',
+                fontWeight: '600',
+              }}>
+              Resend SMS.
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#3366cc',
+    justifyContent: 'flex-end',
+  },
   thirdScreen__container: {
     alignItems: 'center',
+    // justifyContent: 'center',
+    backgroundColor: '#fff',
+    marginTop: 100,
+    height: 360,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
   thirdScreen__heading: {
     fontSize: 22,

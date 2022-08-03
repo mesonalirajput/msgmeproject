@@ -1,22 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import {Avatar} from 'react-native-paper';
-import Header from './Header';
-import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import moment from 'moment';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useNavigation} from '@react-navigation/native';
 const HomeScreen = () => {
   const [chats, setChats] = useState(['', '', '', '', '', '', '', '', '', '']);
   const renderItem = ({item}) => <ChatItem />;
-
+  const navigation = useNavigation();
   useEffect(() => {
-    // firestore()
-    //   .collection('users')
-    //   .get()
-    //   .then(docs => {
-    //     console.log(docs.size);
-    //   })
-    //   .catch(err => console.log('err', err));
     if (auth().currentUser) {
       const lastSignIn = moment(auth().currentUser.lastSignIn);
       if (lastSignIn.isBefore(moment().subtract(1, 'hour'))) {
@@ -26,11 +19,21 @@ const HomeScreen = () => {
   }, []);
   return (
     <View style={styles.homescreen__container}>
+      {/* <View style={styles.space}></View> */}
       <FlatList
         data={chats}
         renderItem={renderItem}
         keyExtractor={(item, idx) => item || idx?.toString()}
       />
+      <TouchableOpacity
+        style={styles.contacts}
+        onPress={() => navigation.navigate('LoadingScreen')}>
+        <MaterialCommunityIcons
+          name="message-reply-text"
+          size={26}
+          color="#fff"
+        />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -76,10 +79,32 @@ const ChatItem = () => {
   );
 };
 const styles = StyleSheet.create({
+  homescreen__container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  contacts: {
+    width: 50,
+    height: 50,
+    backgroundColor: '#3366cc',
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    shadowColor: '#000',
+    elevation: 3,
+  },
   chatItem__container: {
+    position: 'relative',
     flexDirection: 'row',
-    marginTop: 20,
+    // marginTop: 20,
     width: '100%',
+    backgroundColor: '#fff',
+    paddingTop: 20,
+    // borderTopLeftRadius: 30,
+    // borderTopRightRadius: 30,
   },
   chatItem__container__left: {
     width: '22%',
